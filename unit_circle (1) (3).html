@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Живая единичная окружность</title>
+    <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=Q3S-cqlmBCWqjX0eFyjsERYAtzBNwi5XEm-J5w7pU6qXF1yUvnvIVrtDgrnZ6gNtPtRKWh6oIExwl1A_DHCGDKEKivckIiNN0s5BCU5ALvnmZXqOU7SI7c2cpE1wU476jZS43_W13z-AhDw5vc640LVYa4FY5WGCyXXwB9RR4Xf411c1ojTynn8decPytI0TIfqoY53jQiNQ26qMKgFle0r5zAvm88hd67jxzlGWtbYjrJTOy7zZ1Fq9oV3BPvn_HIMxUg4uBdKRyosrFMGpE0t2FLDy-psWwWg29QiRZDZP9ruT5n-sPxvbGjqyOBVqgcK3Z4_1QLNh5L4w4QAGP6zTqpsJIBCETCm1LDaxvTMPA74BsSO9cTAnS9jYSiZSFO8C2vNHdQ0W7CYUmNdiZ9uj6vT86-2gfF5ysfmkL9pehdIMCl4sfm26zQgh96NiCRWhN666tzq06RX0tEOzYLnC6QYGeVTasDQuezimGyzTy54nORx7C3uoqTzTU4sNj_nAfTgn4AixSJSiU2vk3iSg5aaXy3nzw-X57wfMSYo286HcG0YHMdtPmuNzwcIMPu4LiAYzq4iaASn_W8_bDuUUmTDA9CMzN7DcS7IbJBaRzZEXqnL1ybraf4ECE8OBY5sNRfU3Ele_kKkX-1VNWA" charset="UTF-8"></script><link rel="stylesheet" crossorigin="anonymous" href="https://gc.kis.v2.scr.kaspersky-labs.com/E3E8934C-235A-4B0E-825A-35A08381A191/abn/main.css?attr=aHR0cHM6Ly9wcm9kLWNoYXQta2ltaS50b3MtY24tYmVpamluZy52b2xjZXMuY29tL2tpbWktZnMvb2tjL3VhY3JuZ203dTcya3kvb3V0cHV0L3VuaXRfY2lyY2xlLmh0bWw_WC1Ub3MtQWxnb3JpdGhtPVRPUzQtSE1BQy1TSEEyNTYmWC1Ub3MtQ3JlZGVudGlhbD1BS0xUWVRKbE5qZ3dNalkyWkRCa05ERmlZbUk1WVdOaVpEQmxabUZtWWpJelpUQSUyZjIwMjYwNDI5JTJmY24tYmVpamluZyUyZnRvcyUyZnJlcXVlc3QmWC1Ub3MtRGF0ZT0yMDI2MDQyOVQyMDMwNTdaJlgtVG9zLUV4cGlyZXM9NTE4NDAwJlgtVG9zLVNpZ25hdHVyZT05ZWY4YWZmODVkM2E1OGExZTY5NTc1MDFmOGQzMTI5NDA0M2IwMzZiZDBhYjI0MzJhM2NmZTUxYmM4MThlNTJmJlgtVG9zLVNpZ25lZEhlYWRlcnM9aG9zdCZyZXNwb25zZS1jb250ZW50LWRpc3Bvc2l0aW9uPWF0dGFjaG1lbnQlM2IlMjBmaWxlbmFtZSUyYSUzZFVURi04JTI3JTI3dW5pdF9jaXJjbGUuaHRtbA"/><style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #fff;
+            padding: 20px;
+        }
+        h1 {
+            margin-bottom: 10px;
+            text-align: center;
+            font-size: 2em;
+            text-shadow: 0 0 20px rgba(100, 200, 255, 0.5);
+        }
+        .subtitle {
+            color: #aaa;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+        .main-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            width: 100%;
+            max-width: 1200px;
+        }
+        .canvas-container {
+            position: relative;
+        }
+        canvas {
+            border-radius: 15px;
+            box-shadow: 0 0 30px rgba(0, 150, 255, 0.3);
+            background: #0a0a1a;
+        }
+        .controls {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            min-width: 300px;
+        }
+        .slider-container {
+            background: rgba(255,255,255,0.05);
+            padding: 20px;
+            border-radius: 15px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .slider-container label {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+            color: #64c8ff;
+        }
+        input[type="range"] {
+            width: 100%;
+            height: 10px;
+            -webkit-appearance: none;
+            appearance: none;
+            background: linear-gradient(90deg, #0f3460, #64c8ff);
+            border-radius: 5px;
+            outline: none;
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 24px;
+            height: 24px;
+            background: #fff;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 0 15px rgba(100, 200, 255, 0.8);
+        }
+        .angle-display {
+            text-align: center;
+            font-size: 2em;
+            font-weight: bold;
+            color: #64c8ff;
+            margin-top: 10px;
+        }
+        .values-panel {
+            background: rgba(255,255,255,0.05);
+            padding: 20px;
+            border-radius: 15px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .value-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .value-row:last-child {
+            border-bottom: none;
+        }
+        .value-label {
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+        .value-number {
+            font-size: 1.3em;
+            font-family: 'Courier New', monospace;
+            color: #ffd700;
+        }
+        .sin-color { color: #ff6b6b; }
+        .cos-color { color: #4ecdc4; }
+        .tan-color { color: #ffe66d; }
+        .identity-box {
+            background: linear-gradient(135deg, rgba(255,107,107,0.2), rgba(78,205,196,0.2));
+            padding: 20px;
+            border-radius: 15px;
+            border: 2px solid rgba(255,255,255,0.2);
+            text-align: center;
+        }
+        .identity-formula {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+        .identity-result {
+            font-size: 2em;
+            font-weight: bold;
+            color: #00ff88;
+            text-shadow: 0 0 20px rgba(0,255,136,0.5);
+        }
+        .formula-detail {
+            font-size: 0.9em;
+            color: #aaa;
+            margin-top: 5px;
+        }
+        .legend {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .legend-color {
+            width: 20px;
+            height: 4px;
+            border-radius: 2px;
+        }
+        .play-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border: none;
+            color: white;
+            padding: 12px 30px;
+            font-size: 1.1em;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+        .play-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(102, 126, 234, 0.5);
+        }
+        .special-points {
+            background: rgba(255,255,255,0.05);
+            padding: 15px;
+            border-radius: 15px;
+            border: 1px solid rgba(255,255,255,0.1);
+            margin-top: 10px;
+        }
+        .special-points h3 {
+            color: #64c8ff;
+            margin-bottom: 10px;
+        }
+        .special-point {
+            padding: 5px 0;
+            font-size: 0.95em;
+            color: #ccc;
+        }
+    </style>
+</head>
+<body>
+    <h1>🎯 Живая единичная окружность</h1>
+    <p class="subtitle">Интерактивная модель для изучения тригонометрических функций</p>
+
+    <div class="main-container">
+        <div class="canvas-container">
+            <canvas id="unitCircle" width="450" height="450"></canvas>
+            <div class="legend">
+                <div class="legend-item">
+                    <div class="legend-color" style="background:#ff6b6b;"></div>
+                    <span>sin α</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background:#4ecdc4;"></div>
+                    <span>cos α</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background:#ffe66d;"></div>
+                    <span>tg α</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <div class="slider-container">
+                <label for="angleSlider">🔧 Угол α (в градусах)</label>
+                <input type="range" id="angleSlider" min="0" max="360" value="30" step="0.5">
+                <div class="angle-display"><span id="angleValue">30</span>°</div>
+                <button class="play-btn" id="playBtn" onclick="toggleAnimation()">▶ Автовращение</button>
+            </div>
+
+            <div class="values-panel">
+                <div class="value-row">
+                    <span class="value-label sin-color">sin α =</span>
+                    <span class="value-number" id="sinValue">0.500</span>
+                </div>
+                <div class="value-row">
+                    <span class="value-label cos-color">cos α =</span>
+                    <span class="value-number" id="cosValue">0.866</span>
+                </div>
+                <div class="value-row">
+                    <span class="value-label tan-color">tg α =</span>
+                    <span class="value-number" id="tanValue">0.577</span>
+                </div>
+            </div>
+
+            <div class="identity-box">
+                <div class="identity-formula">
+                    <span class="sin-color">sin²α</span> + 
+                    <span class="cos-color">cos²α</span> = 
+                    <span id="identityResult" class="identity-result">1.000</span>
+                </div>
+                <div class="formula-detail">
+                    <span id="sin2Detail">0.250</span> + 
+                    <span id="cos2Detail">0.750</span> = 
+                    <span id="sumDetail">1.000</span>
+                </div>
+            </div>
+
+            <div class="special-points">
+                <h3>📌 Ключевые точки</h3>
+                <div class="special-point">0° → sin=0, cos=1, tg=0</div>
+                <div class="special-point">30° → sin=½, cos=√3/2, tg=1/√3</div>
+                <div class="special-point">45° → sin=cos=√2/2, tg=1</div>
+                <div class="special-point">60° → sin=√3/2, cos=½, tg=√3</div>
+                <div class="special-point">90° → sin=1, cos=0, tg→∞</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('unitCircle');
+        const ctx = canvas.getContext('2d');
+        const slider = document.getElementById('angleSlider');
+        const angleDisplay = document.getElementById('angleValue');
+        const sinValue = document.getElementById('sinValue');
+        const cosValue = document.getElementById('cosValue');
+        const tanValue = document.getElementById('tanValue');
+        const identityResult = document.getElementById('identityResult');
+        const sin2Detail = document.getElementById('sin2Detail');
+        const cos2Detail = document.getElementById('cos2Detail');
+        const sumDetail = document.getElementById('sumDetail');
+        const playBtn = document.getElementById('playBtn');
+
+        let isAnimating = false;
+        let animationId = null;
+
+        const centerX = 225;
+        const centerY = 225;
+        const radius = 160;
+
+        function toRad(deg) {
+            return deg * Math.PI / 180;
+        }
+
+        function drawGrid() {
+            ctx.strokeStyle = 'rgba(255,255,255,0.1)';
+            ctx.lineWidth = 1;
+
+            // Оси
+            ctx.beginPath();
+            ctx.moveTo(20, centerY);
+            ctx.lineTo(430, centerY);
+            ctx.moveTo(centerX, 20);
+            ctx.lineTo(centerX, 430);
+            ctx.stroke();
+
+            // Стрелки осей
+            ctx.fillStyle = 'rgba(255,255,255,0.5)';
+            ctx.beginPath();
+            ctx.moveTo(430, centerY);
+            ctx.lineTo(420, centerY-5);
+            ctx.lineTo(420, centerY+5);
+            ctx.fill();
+            ctx.beginPath();
+            ctx.moveTo(centerX, 20);
+            ctx.lineTo(centerX-5, 30);
+            ctx.lineTo(centerX+5, 30);
+            ctx.fill();
+
+            // Подписи осей
+            ctx.fillStyle = 'rgba(255,255,255,0.6)';
+            ctx.font = '14px sans-serif';
+            ctx.fillText('x (cos)', 400, centerY + 20);
+            ctx.fillText('y (sin)', centerX + 10, 35);
+
+            // Окружность
+            ctx.strokeStyle = 'rgba(100, 200, 255, 0.4)';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
+            ctx.stroke();
+
+            // Разметка углов
+            const angles = [0, 30, 45, 60, 90, 120, 135, 150, 180, 210, 225, 240, 270, 300, 315, 330];
+            angles.forEach(a => {
+                const rad = toRad(a);
+                const x = centerX + Math.cos(rad) * (radius + 15);
+                const y = centerY - Math.sin(rad) * (radius + 15);
+                ctx.fillStyle = 'rgba(255,255,255,0.4)';
+                ctx.font = '11px sans-serif';
+                ctx.textAlign = 'center';
+                ctx.fillText(a + '°', x, y + 4);
+            });
+        }
+
+        function drawAngle(angle) {
+            const rad = toRad(angle);
+            const x = centerX + Math.cos(rad) * radius;
+            const y = centerY - Math.sin(rad) * radius;
+
+            // Дуга угла
+            ctx.strokeStyle = 'rgba(255, 200, 100, 0.6)';
+            ctx.lineWidth = 2;
+            ctx.setLineDash([5, 3]);
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, 40, -rad, 0);
+            ctx.stroke();
+            ctx.setLineDash([]);
+
+            // Подпись угла
+            const labelAngle = -rad / 2;
+            const labelX = centerX + Math.cos(labelAngle) * 55;
+            const labelY = centerY + Math.sin(labelAngle) * 55;
+            ctx.fillStyle = '#ffc864';
+            ctx.font = 'bold 14px sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText('α', labelX, labelY);
+
+            // Радиус (гипотенуза)
+            ctx.strokeStyle = '#fff';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(centerX, centerY);
+            ctx.lineTo(x, y);
+            ctx.stroke();
+
+            // Точка на окружности
+            ctx.fillStyle = '#fff';
+            ctx.beginPath();
+            ctx.arc(x, y, 6, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.strokeStyle = '#64c8ff';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+
+            // Проекция на ось Y (sin)
+            ctx.strokeStyle = '#ff6b6b';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+            ctx.lineTo(x, centerY);
+            ctx.stroke();
+
+            // Подпись sin
+            const sinY = centerY - Math.sin(rad) * radius / 2;
+            ctx.fillStyle = '#ff6b6b';
+            ctx.font = 'bold 13px sans-serif';
+            ctx.textAlign = 'left';
+            ctx.fillText('sin α', x + 8, sinY);
+
+            // Проекция на ось X (cos)
+            ctx.strokeStyle = '#4ecdc4';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+            ctx.lineTo(centerX, y);
+            ctx.stroke();
+
+            // Подпись cos
+            const cosX = centerX + Math.cos(rad) * radius / 2;
+            ctx.fillStyle = '#4ecdc4';
+            ctx.font = 'bold 13px sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText('cos α', cosX, y - 8);
+
+            // Тангенс (линия касательная)
+            if (Math.abs(Math.cos(rad)) > 0.01) {
+                const tanVal = Math.tan(rad);
+                const tanY = centerY - tanVal * radius;
+
+                if (Math.abs(tanVal) < 3) {
+                    ctx.strokeStyle = 'rgba(255, 230, 109, 0.6)';
+                    ctx.lineWidth = 2;
+                    ctx.setLineDash([8, 4]);
+                    ctx.beginPath();
+                    ctx.moveTo(centerX + radius, centerY);
+                    ctx.lineTo(centerX + radius, tanY);
+                    ctx.stroke();
+                    ctx.setLineDash([]);
+
+                    // Линия от точки до касательной
+                    ctx.strokeStyle = 'rgba(255, 230, 109, 0.4)';
+                    ctx.lineWidth = 1;
+                    ctx.beginPath();
+                    ctx.moveTo(x, y);
+                    ctx.lineTo(centerX + radius, tanY);
+                    ctx.stroke();
+
+                    ctx.fillStyle = '#ffe66d';
+                    ctx.font = 'bold 12px sans-serif';
+                    ctx.textAlign = 'left';
+                    ctx.fillText('tg α', centerX + radius + 5, tanY);
+                }
+            }
+
+            // Координаты точки
+            ctx.fillStyle = 'rgba(255,255,255,0.7)';
+            ctx.font = '12px sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText(`(${Math.cos(rad).toFixed(3)}, ${Math.sin(rad).toFixed(3)})`, x, y - 15);
+        }
+
+        function updateValues(angle) {
+            const rad = toRad(angle);
+            const sin = Math.sin(rad);
+            const cos = Math.cos(rad);
+            const tan = Math.tan(rad);
+
+            angleDisplay.textContent = angle.toFixed(1);
+            sinValue.textContent = sin.toFixed(3);
+            cosValue.textContent = cos.toFixed(3);
+
+            if (Math.abs(cos) < 0.001) {
+                tanValue.textContent = '∞';
+                tanValue.style.color = '#ff6b6b';
+            } else {
+                tanValue.textContent = tan.toFixed(3);
+                tanValue.style.color = '#ffe66d';
+            }
+
+            const sin2 = sin * sin;
+            const cos2 = cos * cos;
+            const sum = sin2 + cos2;
+
+            identityResult.textContent = sum.toFixed(6);
+            sin2Detail.textContent = sin2.toFixed(6);
+            cos2Detail.textContent = cos2.toFixed(6);
+            sumDetail.textContent = sum.toFixed(6);
+
+            // Подсветка, если не ровно 1 (из-за погрешности float)
+            if (Math.abs(sum - 1) < 0.0001) {
+                identityResult.style.color = '#00ff88';
+            } else {
+                identityResult.style.color = '#ff6b6b';
+            }
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            drawGrid();
+            drawAngle(parseFloat(slider.value));
+        }
+
+        function toggleAnimation() {
+            if (isAnimating) {
+                isAnimating = false;
+                playBtn.textContent = '▶ Автовращение';
+                cancelAnimationFrame(animationId);
+            } else {
+                isAnimating = true;
+                playBtn.textContent = '⏸ Пауза';
+                animate();
+            }
+        }
+
+        function animate() {
+            if (!isAnimating) return;
+            let val = parseFloat(slider.value);
+            val += 0.3;
+            if (val > 360) val = 0;
+            slider.value = val;
+            draw();
+            updateValues(val);
+            animationId = requestAnimationFrame(animate);
+        }
+
+        slider.addEventListener('input', function() {
+            draw();
+            updateValues(parseFloat(this.value));
+        });
+
+        draw();
+        updateValues(30);
+    </script>
+</body>
+</html>
